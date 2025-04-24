@@ -8,18 +8,6 @@ const dotenv = require("dotenv");
 dotenv.config();
 const PORT = process.env.PORT || 8080;
 
-const authRoutes = require('./routes/authRoutes');
-app.use('/api/auth', authRoutes);
-
-
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(() => {
-    console.log("MongoDB connected successfully");
-}).catch((error) => {
-    console.log("MongoDB connection failed", error);
-})
 
 
 app.get("/",(request, response) => {
@@ -30,7 +18,7 @@ app.get("/",(request, response) => {
     }    
 })
 
-app.listen(5000,async() => {
+app.listen(8080,async() => {
     try {
        
         console.log("server connected");
