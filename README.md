@@ -1,1 +1,0 @@
-# S89_Suryanshu_Capstone_ARTLINK
