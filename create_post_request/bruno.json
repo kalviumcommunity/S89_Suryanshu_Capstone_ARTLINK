@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "create_post_request",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
