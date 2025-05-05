@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "name": "post",
+  "name": "Auth-API-test",
   "type": "collection",
   "ignore": [
     "node_modules",
