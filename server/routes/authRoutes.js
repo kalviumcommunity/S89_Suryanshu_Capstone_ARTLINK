@@ -82,4 +82,29 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.put('/forgot-password', async (req, res) => {
+    try {
+        const { email, newPassword } = req.body;
+
+        const validationError = validateRequestBody(['email', 'newPassword'], req.body);
+        if (validationError) {
+            return res.status(400).json({ message: validationError });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        user.password = hashedPassword;
+        await user.save();
+
+        res.json({ message: 'Password updated successfully' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 module.exports = router;
