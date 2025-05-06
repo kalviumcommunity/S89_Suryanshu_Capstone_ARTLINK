@@ -1,13 +1,14 @@
 const express = require('express');
 const Product = require('../models/Product');
+const { protect } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// Create a new product
-router.post('/create', async (req, res) => {
+// Only authenticated users can create products
+router.post('/create', protect, async (req, res) => {
    try {
       const { name, description, price } = req.body;
-      const product = new Product({ name, description, price });
+      const product = new Product({ name, description, price, createdBy: req.user._id });
       await product.save();
       res.status(201).json({ message: "Product added!", product });
    } catch (error) {
@@ -15,33 +16,27 @@ router.post('/create', async (req, res) => {
    }
 });
 
-// Get all products
+// Fetch all products (public access)
 router.get('/', async (req, res) => {
    try {
-      const products = await Product.find();
+      const products = await Product.find().populate("createdBy", "name email");
       res.json(products);
    } catch (error) {
       res.status(500).json({ error: error.message });
    }
 });
 
-// Update a product
-router.put('/update/:id', async (req, res) => {
+// Only authenticated users can update their own products
+router.put('/update/:id', protect, async (req, res) => {
    try {
-      const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
-      if (!updatedProduct) return res.status(404).json({ error: "Product not found!" });
-      res.json({ message: "Product updated!", product: updatedProduct });
-   } catch (error) {
-      res.status(500).json({ error: error.message });
-   }
-});
+      const product = await Product.findById(req.params.id);
 
-// Delete a product
-router.delete('/delete/:id', async (req, res) => {
-   try {
-      const deletedProduct = await Product.findByIdAndDelete(req.params.id);
-      if (!deletedProduct) return res.status(404).json({ error: "Product not found!" });
-      res.json({ message: "Product deleted!" });
+      if (!product || product.createdBy.toString() !== req.user._id.toString()) {
+         return res.status(403).json({ error: "You do not have permission to update this product" });
+      }
+
+      const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      res.json({ message: "Product updated!", product: updatedProduct });
    } catch (error) {
       res.status(500).json({ error: error.message });
    }
