@@ -1,20 +1,13 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-const adminOnly = (req, res, next) => {
-    if (req.user && req.user.role === 'admin') {
-       next();
-    } else {
-       res.status(403).json({ error: "Admin access required" });
-    }
- };
- 
- module.exports = { protect, adminOnly };
-
+// Protect middleware to verify token
 const protect = async (req, res, next) => {
+   console.log("Protect middleware called")
    try {
+      console.log(req.headers)
       // Check if the request has a token
-      const token = req.headers.authorization?.split(" ")[1];
+      const token = req.headers.authorization;
 
       if (!token) {
          return res.status(401).json({ error: "Access denied, no token provided" });
@@ -30,4 +23,14 @@ const protect = async (req, res, next) => {
    }
 };
 
-module.exports = protect;
+// Admin-only middleware
+const adminOnly = (req, res, next) => {
+   if (req.user && req.user.role === 'admin') {
+      next();
+   } else {
+      res.status(403).json({ error: "Admin access required" });
+   }
+};
+
+// Export the middleware functions
+module.exports = { protect, adminOnly };

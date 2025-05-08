@@ -4,8 +4,7 @@ const { protect } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// Only authenticated users can create products
-router.post('/create', protect, async (req, res) => {
+router.post('/create', async (req, res) => {
    try {
       const { name, description, price } = req.body;
       const product = new Product({ name, description, price, createdBy: req.user._id });
@@ -16,7 +15,6 @@ router.post('/create', protect, async (req, res) => {
    }
 });
 
-// Fetch all products (public access)
 router.get('/', async (req, res) => {
    try {
       const products = await Product.find().populate("createdBy", "name email");
