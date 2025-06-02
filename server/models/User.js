@@ -15,13 +15,24 @@ const UserSchema = new mongoose.Schema({
    },
    password: {
       type: String,
-      required: true,
+      required: function() {
+         return !this.googleId; // Password is required only if googleId is not present
+      },
       minlength: 6,
    },
    role: {
       type: String,
       enum: ['user', 'admin'],
       default: 'user',
+   },
+   googleId: {
+      type: String,
+      unique: true,
+      sparse: true, // This allows null values and only enforces uniqueness for non-null values
+   },
+   profilePicture: {
+      type: String,
+      default: '',
    },
    createdAt: {
       type: Date,
