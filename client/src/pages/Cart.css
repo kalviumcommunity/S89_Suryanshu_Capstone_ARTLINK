@@ -1,0 +1,130 @@
+.cart-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.cart-container h1 {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.cart-content {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 2rem;
+}
+
+.cart-items {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 100px 1fr auto auto;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.item-image {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.item-details h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.item-details p {
+  margin: 0;
+  color: #666;
+}
+
+.price {
+  color: #4f3ce7 !important;
+  font-weight: bold;
+  margin-top: 0.5rem !important;
+}
+
+.item-quantity {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.item-quantity button {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+}
+
+.remove-item {
+  background: none;
+  border: none;
+  color: #ff4444;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.cart-summary {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  height: fit-content;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0;
+  color: #666;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  margin: 1.5rem 0;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.checkout-button {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  background-color: #4f3ce7;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  transition: background-color 0.3s;
+}
+
+.checkout-button:hover {
+  background-color: #3f2fd4;
+}
+
+@media (max-width: 768px) {
+  .cart-content {
+    grid-template-columns: 1fr;
+  }
+}
