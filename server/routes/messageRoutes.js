@@ -15,7 +15,7 @@ router.post('/send', async (req, res) => {
    }
 });
 
-// Get messages between two users
+
 router.get('/:senderId/:receiverId', async (req, res) => {
    try {
       const messages = await Message.find({
