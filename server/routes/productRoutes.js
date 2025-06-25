@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
    }
 });
 
-// Only authenticated users can update their own products
+
 router.put('/update/:id', protect, async (req, res) => {
    try {
       const product = await Product.findById(req.params.id);

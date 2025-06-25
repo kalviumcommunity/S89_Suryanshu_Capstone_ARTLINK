@@ -1,0 +1,93 @@
+.filter-sidebar {
+  width: 250px;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.filter-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.filter-section h4 {
+  font-size: 1rem;
+  margin: 1rem 0;
+  color: #555;
+}
+
+.price-range {
+  margin-bottom: 2rem;
+}
+
+.range-inputs {
+  width: 100%;
+}
+
+.range-inputs input[type="range"] {
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.price-display {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  color: #666;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.category-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #555;
+  cursor: pointer;
+}
+
+.category-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.apply-filters {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 1.5rem;
+  background-color: #4f3ce7;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.apply-filters:hover {
+  background-color: #3f2fd4;
+}
+
+.remove-filters {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #eee;
+  color: #333;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.remove-filters:hover {
+  background-color: #ff4444;
+  color: #fff;
+}

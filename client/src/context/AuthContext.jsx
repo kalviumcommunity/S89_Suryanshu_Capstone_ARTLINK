@@ -27,29 +27,32 @@ export const AuthProvider = ({ children }) => {
 
   // Load user data if token exists
   useEffect(() => {
+    let didCancel = false;
     const loadUser = async () => {
       if (!token) {
         setLoading(false);
         return;
       }
-
       try {
-        // You would typically have an endpoint to get user data using the token
-        // For now, we'll just decode the token to get the user ID
-        const userId = JSON.parse(atob(token.split('.')[1])).id;
-
-        // In a real app, you would fetch user data from an endpoint
-        setUser({ id: userId });
-        setLoading(false);
+        const res = await axios.get('/api/auth/me');
+        if (!didCancel) {
+          setUser(res.data.user);
+          setLoading(false);
+        }
       } catch (err) {
         console.error('Error loading user:', err);
-        setToken(null);
-        setUser(null);
-        setLoading(false);
+        if (!didCancel) {
+          setUser(null);
+          setLoading(false);
+          // Only clear token if error is 401 (unauthorized)
+          if (err.response && err.response.status === 401) {
+            setToken(null);
+          }
+        }
       }
     };
-
     loadUser();
+    return () => { didCancel = true; };
   }, [token]);
 
   // Register a new user
@@ -96,9 +99,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Handle Google OAuth success
-  const handleGoogleSuccess = (tokenFromUrl, userId) => {
+  const handleGoogleSuccess = (tokenFromUrl) => {
     setToken(tokenFromUrl);
-    setUser({ id: userId });
+    // Do NOT call setUser here; let the effect fetch the user from the backend
   };
 
   // Logout

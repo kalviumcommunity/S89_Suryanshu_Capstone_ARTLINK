@@ -1,0 +1,114 @@
+/* Artistic chat bubbles for AI Assistant */
+.message-bubble {
+  position: relative;
+  max-width: 70%;
+  margin-bottom: 1.2rem;
+  padding: 1.1rem 1.5rem;
+  border-radius: 2.2em;
+  font-size: 1.08rem;
+  line-height: 1.6;
+  box-shadow: 0 4px 18px rgba(161,143,255,0.10), 0 2px 8px rgba(0,0,0,0.08);
+  word-break: break-word;
+  display: flex;
+  flex-direction: column;
+  animation: bubbleIn 0.3s;
+}
+
+.bubble-user {
+  align-self: flex-end;
+  background: linear-gradient(90deg, #4f3ce7 0%, #a18fff 100%);
+  color: #fff;
+  border-bottom-right-radius: 0.7em 2em;
+}
+
+.bubble-user:after {
+  content: '';
+  position: absolute;
+  right: -18px;
+  bottom: 10px;
+  width: 22px;
+  height: 22px;
+  background: linear-gradient(90deg, #4f3ce7 0%, #a18fff 100%);
+  border-radius: 50%;
+  opacity: 0.7;
+  z-index: 0;
+}
+
+.bubble-bot {
+  align-self: flex-start;
+  background: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+  color: #4f3ce7;
+  border-bottom-left-radius: 0.7em 2em;
+  border: 1.5px solid #a18fff;
+}
+
+.bubble-bot:after {
+  content: '';
+  position: absolute;
+  left: -18px;
+  bottom: 10px;
+  width: 22px;
+  height: 22px;
+  background: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+  border-radius: 50%;
+  opacity: 0.7;
+  z-index: 0;
+}
+
+@keyframes bubbleIn {
+  from { transform: scale(0.95) translateY(20px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.artistic-send {
+  background: linear-gradient(100deg, #a18fff 0%, #4f3ce7 100%);
+  box-shadow: 0 4px 18px rgba(161,143,255,0.18), 0 2px 8px rgba(0,0,0,0.10);
+  border: none;
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+  outline: none;
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
+}
+
+.artistic-send:active {
+  transform: scale(0.95);
+}
+
+.artistic-send svg {
+  font-size: 1.7em;
+  color: #fff;
+  filter: drop-shadow(0 2px 8px #a18fff88);
+  transition: color 0.2s;
+}
+
+.artistic-send::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  bottom: -10px;
+  width: 18px;
+  height: 18px;
+  background: radial-gradient(circle at 60% 40%, #a18fff55 60%, transparent 100%);
+  border-radius: 50%;
+  z-index: 0;
+  opacity: 0.7;
+}
+
+.artistic-send:hover {
+  background: linear-gradient(100deg, #4f3ce7 0%, #a18fff 100%);
+  box-shadow: 0 8px 28px rgba(161,143,255,0.25);
+}
+
+@media (max-width: 700px) {
+  .message-bubble {
+    max-width: 90%;
+    padding: 0.8rem 1rem;
+  }
+}

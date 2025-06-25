@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const passport = require('passport');
+const nodemailer = require('nodemailer');
 require('../config/passport');
 
 const router = express.Router();
@@ -99,7 +100,6 @@ router.put('/forgot-password', async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-
         user.password = hashedPassword;
         await user.save();
 
@@ -204,6 +204,102 @@ router.post('/google-login', async (req, res) => {
     } catch (err) {
         console.error('Google login error:', err);
         res.status(500).json({ error: err.message || 'Google authentication failed' });
+    }
+});
+
+// Get user by ID (for profile fetch)
+router.get('/me', async (req, res) => {
+    try {
+        // Get token from header
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.status(401).json({ message: 'No token provided' });
+        }
+        const token = authHeader.split(' ')[1] || authHeader;
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await User.findById(decoded.id).select('-password');
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json({ user });
+    } catch (err) {
+        res.status(401).json({ message: 'Invalid token' });
+    }
+});
+
+// Endpoint to get security question for a given email
+router.post('/get-security-question', async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) return res.status(400).json({ message: 'Email is required' });
+        const user = await User.findOne({ email });
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        res.json({ securityQuestion: user.securityQuestion });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// In-memory store for OTPs (for demo; use DB/Redis for production)
+const otpStore = {};
+
+// Endpoint to request OTP for forgot password
+router.post('/request-otp', async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) return res.status(400).json({ message: 'Email is required' });
+        const user = await User.findOne({ email });
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        // Generate 6-digit OTP
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        const expires = Date.now() + 10 * 60 * 1000; // 10 minutes
+        otpStore[email] = { otp, expires };
+
+        // Send OTP via email (configure your SMTP settings)
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+        });
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Your OTP for Password Reset',
+            text: `Your OTP is: ${otp}`,
+        });
+
+        res.json({ message: 'OTP sent to your email.' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Endpoint to verify OTP and reset password
+router.post('/verify-otp-reset', async (req, res) => {
+    try {
+        const { email, otp, newPassword } = req.body;
+        if (!email || !otp || !newPassword) return res.status(400).json({ message: 'All fields are required' });
+        const user = await User.findOne({ email });
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        const record = otpStore[email];
+        if (!record || record.otp !== otp) {
+            return res.status(400).json({ message: 'Invalid or expired OTP' });
+        }
+        if (Date.now() > record.expires) {
+            delete otpStore[email];
+            return res.status(400).json({ message: 'OTP expired' });
+        }
+        // OTP is valid
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        await user.save();
+        delete otpStore[email];
+        res.json({ message: 'Password updated successfully' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
 

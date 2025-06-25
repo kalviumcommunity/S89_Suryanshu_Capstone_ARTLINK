@@ -4,20 +4,21 @@ import { useAuth } from '../context/AuthContext';
 
 const AuthSuccess = () => {
   const [searchParams] = useSearchParams();
-  const { handleGoogleSuccess } = useAuth();
+  const { handleGoogleSuccess, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = searchParams.get('token');
-    const userId = searchParams.get('userId');
 
-    if (token && userId) {
-      handleGoogleSuccess(token, userId);
-      navigate('/');
+    if (token) {
+      handleGoogleSuccess(token);
     } else {
       navigate('/login');
     }
-  }, [searchParams, handleGoogleSuccess, navigate]);
+    if (!loading && token) {
+      navigate('/');
+    }
+  }, [searchParams, handleGoogleSuccess, navigate, loading]);
 
   return (
     <div className="auth-container">
