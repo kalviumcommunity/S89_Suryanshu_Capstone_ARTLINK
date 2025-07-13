@@ -12,7 +12,10 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   // Set up axios defaults
-  axios.defaults.baseURL = 'http://localhost:5000';
+  axios.defaults.baseURL =
+    window.location.hostname === 'localhost'
+      ? 'http://localhost:5000'
+      : 'https://s89-suryanshu-capstone-artlink.onrender.com';
 
   // Set token in axios headers when it changes
   useEffect(() => {
