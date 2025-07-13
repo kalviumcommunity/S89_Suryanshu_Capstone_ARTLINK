@@ -1,12 +1,25 @@
-import { Link } from 'react-router-dom';
-import { FaTrash, FaPlus, FaMinus } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaTrash } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
+import { useState } from 'react';
 import './Cart.css';
 
 const Cart = () => {
   const { cartItems, updateQuantity, removeFromCart } = useCart();
+  const navigate = useNavigate();
+  const [cartError, setCartError] = useState("");
 
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const handleCheckout = (e) => {
+    if (cartItems.length === 0) {
+      e.preventDefault();
+      setCartError('Your cart is empty.');
+      setTimeout(() => setCartError(""), 2000);
+      return;
+    }
+    navigate('/checkout');
+  };
 
   return (
     <div className="cart-container">
@@ -26,11 +39,13 @@ const Cart = () => {
                 </div>
                 <div className="item-quantity">
                   <button onClick={() => updateQuantity(item.id, item.quantity - 1)} aria-label="Decrease quantity">
-                    <FaMinus />
+                    {/* <FaMinus /> */}
+                    -
                   </button>
                   <span>{item.quantity}</span>
                   <button onClick={() => updateQuantity(item.id, item.quantity + 1)} aria-label="Increase quantity">
-                    <FaPlus />
+                    {/* <FaPlus /> */}
+                    +
                   </button>
                 </div>
                 <button className="remove-item" onClick={() => removeFromCart(item.id)}>
@@ -42,6 +57,7 @@ const Cart = () => {
         </div>
         <div className="cart-summary">
           <h2>Order Summary</h2>
+          {cartError && <div className="cart-error-message">{cartError}</div>}
           <div className="summary-row">
             <span>Subtotal</span>
             <span>${total.toFixed(2)}</span>
@@ -54,9 +70,12 @@ const Cart = () => {
             <span>Total</span>
             <span>${total.toFixed(2)}</span>
           </div>
-          <Link to="/checkout" className="checkout-button">
+          <button
+            className="checkout-button"
+            onClick={handleCheckout}
+          >
             Proceed to Checkout
-          </Link>
+          </button>
         </div>
       </div>
     </div>

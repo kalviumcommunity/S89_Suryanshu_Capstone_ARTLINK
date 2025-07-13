@@ -1,0 +1,48 @@
+.product-card {
+  position: relative;
+}
+
+.heart-btn {
+  background: transparent !important;
+  border: none;
+  font-size: 1.7rem;
+  color: #bbb;
+  cursor: pointer;
+  transition: color 0.2s;
+  margin-left: 0;
+  margin-right: 0;
+  vertical-align: middle;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  padding: 0;
+}
+
+.heart-btn.wished {
+  color: #e63946;
+}
+
+.heart-btn:hover {
+  color: #e63946;
+}
+
+@media (max-width: 900px) {
+  .product-card {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .product-card {
+    min-width: 0;
+    width: 100%;
+    margin-bottom: 12px;
+  }
+  .heart-btn {
+    font-size: 1.3rem;
+    top: 6px;
+    right: 6px;
+  }
+}

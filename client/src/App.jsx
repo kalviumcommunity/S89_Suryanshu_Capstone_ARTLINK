@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ArtistProvider } from './context/ArtistContext';
 import { CartProvider } from './context/CartContext';
+import { OrdersProvider } from './context/OrdersContext';
+import { WishlistProvider } from './context/WishlistContext';
 import Navbar from './components/Navbar/Navbar';
 import HomePage from './pages/HomePage';
 import Login from './pages/Login';
@@ -15,6 +17,7 @@ import ProfilePage from './pages/ProfilePage';
 import Dashboard from './pages/Dashboard';
 import Footer from './components/Footer/Footer';
 import ForgotPassword from './pages/ForgotPassword';
+import Checkout from './pages/Checkout';
 import './App.css';
 import './pages/ForgotPassword.css';
 
@@ -48,6 +51,7 @@ function AppRoutes() {
       <Route path="/ai-assistant" element={<ProtectedRoute><AiAssistant /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/checkout" element={<Checkout />} />
     </Routes>
   );
 }
@@ -58,13 +62,17 @@ function App() {
       <AuthProvider>
         <ArtistProvider>
           <CartProvider>
-            <div className="app">
-              <Navbar />
-              <main className="main-content">
-                <AppRoutes />
-              </main>
-              <Footer />
-            </div>
+            <OrdersProvider>
+              <WishlistProvider>
+                <div className="app">
+                  <Navbar />
+                  <main className="main-content">
+                    <AppRoutes />
+                  </main>
+                  <Footer />
+                </div>
+              </WishlistProvider>
+            </OrdersProvider>
           </CartProvider>
         </ArtistProvider>
       </AuthProvider>

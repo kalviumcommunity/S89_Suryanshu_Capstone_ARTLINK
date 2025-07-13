@@ -1,0 +1,82 @@
+.orders-section {
+  margin-top: 32px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 24px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.orders-section h2 {
+  color: #2d2dcf;
+  margin-bottom: 18px;
+  font-family: 'Lobster', cursive;
+  font-size: 2rem;
+  text-align: center;
+}
+.orders-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.order-item {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 18px 0 10px 0;
+  margin-bottom: 10px;
+  background: #f7f8fa;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+  margin-top: 10px;
+}
+.order-item:last-child {
+  border-bottom: none;
+}
+.order-item ul {
+  margin: 6px 0 0 0;
+  padding-left: 18px;
+}
+.cancel-order-btn {
+  background: #ffb3b3;
+  color: #a10000;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 16px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s;
+  display: block;
+  margin-left: auto;
+  margin-right: 0;
+}
+.cancel-order-btn:hover {
+  background: #ff4d4d;
+  color: #fff;
+}
+@media (max-width: 900px) {
+  .orders-section {
+    max-width: 100%;
+    padding: 16px;
+  }
+  .order-item {
+    padding: 12px 0 8px 0;
+  }
+}
+@media (max-width: 600px) {
+  .orders-section {
+    max-width: 100%;
+    padding: 8px;
+  }
+  .orders-section h2 {
+    font-size: 1.3rem;
+  }
+  .order-item {
+    padding: 8px 0 6px 0;
+    font-size: 0.95em;
+  }
+  .cancel-order-btn {
+    font-size: 0.95em;
+    padding: 5px 10px;
+  }
+}
