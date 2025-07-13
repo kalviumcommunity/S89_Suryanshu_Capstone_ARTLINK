@@ -4,7 +4,7 @@ app.use(express.json());
 const cors = require("cors");
 const path = require("path");
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: ['http://localhost:5173','https://artlinkme.netlify.app'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']

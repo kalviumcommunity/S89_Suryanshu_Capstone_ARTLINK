@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
 import FilterSidebar from '../components/FilterSidebar/FilterSidebar';
 import { allArtworks } from '../data/artworks';
 import '../styles/HomePage.css';
@@ -10,6 +11,7 @@ const MarketplacePage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupProduct, setPopupProduct] = useState(null);
   const { addToCart } = useCart();
+  const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
   const handleFilterChange = ({ selectedCategories }) => {
     setSelectedCategories(selectedCategories || []);
@@ -52,6 +54,14 @@ const MarketplacePage = () => {
           ) : (
             filteredArtworks.map((art, idx) => (
               <div key={art.id} className="artwork-card">
+                <button
+                  className={`heart-btn${wishlist.some(item => item.id === art.id) ? ' wished' : ''}`}
+                  onClick={() => wishlist.some(item => item.id === art.id) ? removeFromWishlist(art.id) : addToWishlist(art)}
+                  aria-label={wishlist.some(item => item.id === art.id) ? 'Remove from wishlist' : 'Add to wishlist'}
+                  style={{ position: 'absolute', top: 10, right: 10, background: 'transparent', zIndex: 2 }}
+                >
+                  {wishlist.some(item => item.id === art.id) ? '♥' : '♡'}
+                </button>
                 <div className="artwork-image" style={{ height: 180, borderRadius: 8, overflow: 'hidden', marginBottom: 12 }}>
                   <img src={art.image} alt={art.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>

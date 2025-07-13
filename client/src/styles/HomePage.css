@@ -201,18 +201,23 @@ html, body, #root {
 
 .artists-grid, .trending-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 2rem;
   margin-top: 2rem;
   width: 100%;
 }
 
 .artist-card, .artwork-card {
-  background: white;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  text-align: center;
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 340px;
+  overflow: visible;
 }
 
 .artist-avatar, .artwork-image {
@@ -373,21 +378,64 @@ html, body, #root {
   100% { opacity: 0; transform: translateY(-20px); }
 }
 
+.heart-btn {
+  background: transparent !important;
+  border: none;
+  font-size: 2.8rem;
+  color: #bbb;
+  cursor: pointer;
+  transition: color 0.2s;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 10;
+  padding: 0;
+  line-height: 1;
+}
+
+.heart-btn.wished {
+  color: #e63946 !important;
+  text-shadow: 0 2px 8px rgba(230,57,70,0.18);
+  transition: color 0.2s, text-shadow 0.2s;
+}
+
 @media (max-width: 900px) {
+  .homepage {
+    padding: 0;
+  }
+  .navbar {
+    flex-direction: column;
+    padding: 1rem;
+  }
   .hero-section.hero-art-section {
     flex-direction: column;
-    align-items: flex-start;
-    padding: 2rem 1rem 2rem 1rem;
+    padding: 2rem 1rem;
   }
-  .hero-art-images {
-    margin-left: 0;
-    margin-top: 2rem;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 0.7rem;
+}
+
+@media (max-width: 600px) {
+  .homepage {
+    min-height: 100vh;
+    width: 100vw;
+    padding: 0;
   }
-  .hero-art-img {
-    width: 90px;
-    height: 90px;
+  .navbar {
+    flex-direction: column;
+    padding: 0.5rem 0.5rem;
+  }
+  .nav-right {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .hero-section {
+    padding: 3rem 0.5rem 2rem 0.5rem;
+    min-height: 200px;
+  }
+  .hero-content h1 {
+    font-size: 1.5rem;
+  }
+  .hero-welcome-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
   }
 }
